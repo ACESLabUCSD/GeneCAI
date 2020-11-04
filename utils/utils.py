@@ -273,7 +273,7 @@ def sweep_decompose_weight(w, num_quant=8):
 	return dict_of_decomposed
 
 def get_decomposed_parameters(args, decomposed_layers, num_quant):
-	path_to_save = os.path.join(args.dataset, args.arch, 'decomposed_weights')
+	path_to_save = os.path.join('artifacts', args.dataset, args.arch, 'decomposed_weights')
 	if not os.path.exists(path_to_save):
 		os.makedirs(path_to_save)
 	
@@ -330,7 +330,7 @@ def get_decomposed_parameters(args, decomposed_layers, num_quant):
 	return all_decomposed_params
 
 def get_valid_ranks(args, decomposed_layers, decomposed_params, num_quant, valloader, masked_net, acc_threshold):
-	path_to_pkl = os.path.join(args.dataset, args.arch, 'boundries_D.pkl')
+	path_to_pkl = os.path.join('artifacts', args.dataset, args.arch, 'boundries_D.pkl')
 	
 	if os.path.exists(path_to_pkl):
 		print('loading valid decomposition ranks from %s'%path_to_pkl)
@@ -576,7 +576,7 @@ def get_list_of_layers(module, layerType=None):
 	return layers
 
 def get_max_prune_rates(args, layers_to_prune, all_sorted_args, valloader, masked_net, device, acc_threshold):
-	path_to_pkl = os.path.join(args.dataset, args.arch, 'boundries_CP.pkl')
+	path_to_pkl = os.path.join('artifacts', args.dataset, args.arch, 'boundries_CP.pkl')
 	
 	if os.path.exists(path_to_pkl):
 		print('loading max pruning rates from %s'%path_to_pkl)

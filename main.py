@@ -73,7 +73,7 @@ def main():
 		inp_size = [3,224,224]
 
 	#----------------------- load model
-	path_to_checkpoint = os.path.join(args.dataset, args.arch, 'checkpoint')
+	path_to_checkpoint = os.path.join('artifacts', args.dataset, args.arch, 'checkpoint')
 
 	net = get_model(args, device)	
 	print('==> Resuming from checkpoint..')
@@ -135,7 +135,7 @@ def main():
 			configs = run_genetic_decomposition(args, masked_net, valloader, r0_population_init, r1_population_init, flops_original, acc_original, 
 									decomposed_layers, decomposed_params, valid_r0_per_layer, valid_r1_per_layer, flops_threshold=None)
 
-			path = os.path.join(args.dataset, args.arch, 'best_configs/decomposition')		
+			path = os.path.join('artifacts', args.dataset, args.arch, 'best_configs/decomposition')		
 			if not os.path.exists(path):
 				os.makedirs(path)
 			for i in range(len(configs['best_configs'])):		
@@ -149,7 +149,7 @@ def main():
 			assert len(args.config)>0, 'please provide the path to the desired per-layer configuration for fine-tuning' 
 			print('loading configuration %s'%(os.path.abspath(args.config)))
 			
-			path_to_config = os.path.join(args.dataset, args.arch, 'best_configs/decomposition', args.config)
+			path_to_config = os.path.join('artifacts', args.dataset, args.arch, 'best_configs/decomposition', args.config)
 			assert os.path.exists(path_to_config), 'no config file found at %s'%path_to_config
 			with open(path_to_config, 'rb') as f:
 				individual_r0, individual_r1 = pickle.load(f)
@@ -186,7 +186,7 @@ def main():
 			criterion = nn.CrossEntropyLoss()
 					
 			best_acc = test_acc
-			path_to_save = os.path.join(args.dataset, args.arch, 'checkpoint/decomposition')
+			path_to_save = os.path.join('artifacts', args.dataset, args.arch, 'checkpoint/decomposition')
 			if not os.path.exists(path_to_save):
 				os.makedirs(path_to_save)
 				torch.save(wrapped_net, os.path.join(path_to_save, 'ckpt.t7'))
@@ -240,7 +240,7 @@ def main():
 			configs = run_genetic_pruning(args, masked_net, valloader, population_init, 
 										flops_original, acc_original, layers_to_prune, masks_before, masks_after, all_sorted_args, flops_threshold=None)
 			
-			path = os.path.join(args.dataset, args.arch, 'best_configs/channel_pruning')		
+			path = os.path.join('artifacts', args.dataset, args.arch, 'best_configs/channel_pruning')		
 			if not os.path.exists(path):
 				os.makedirs(path)
 			for i in range(len(configs['best_configs'])):		
@@ -254,7 +254,7 @@ def main():
 			assert len(args.config)>0, 'please provide the path to the desired per-layer configuration for fine-tuning' 
 			print('loading configuration %s'%(os.path.abspath(args.config)))
 			
-			path_to_config = os.path.join(args.dataset, args.arch, 'best_configs/channel_pruning', args.config)
+			path_to_config = os.path.join('artifacts', args.dataset, args.arch, 'best_configs/channel_pruning', args.config)
 			assert os.path.exists(path_to_config), 'no config file found at %s'%path_to_config
 			with open(path_to_config, 'rb') as f:
 				curr_model = pickle.load(f)
@@ -274,7 +274,7 @@ def main():
 			criterion = nn.CrossEntropyLoss()
 					
 			best_acc = test_acc
-			path_to_save = os.path.join(args.dataset, args.arch, 'checkpoint/pruned')
+			path_to_save = os.path.join('artifacts', args.dataset, args.arch, 'checkpoint/pruned')
 			if not os.path.exists(path_to_save):
 				os.makedirs(path_to_save)
 				torch.save(masked_net, os.path.join(path_to_save, 'ckpt.t7'))

@@ -28,7 +28,7 @@ step_meter = time_meter()
 
 def init_population(args, valid_rates, layers, logistics, valloader, masked_net, device):
 	pop_init_name = 'pop_init_phase_' + args.phase + '_' + str(args.num_population) + '_' + str(args.acc_threshold) + '.pkl'
-	path_to_pkl = os.path.join(args.dataset, args.arch, pop_init_name)
+	path_to_pkl = os.path.join('artifacts', args.dataset, args.arch, pop_init_name)
 	if os.path.exists(path_to_pkl):
 		print('loading population from %s'%path_to_pkl)
 		with open(path_to_pkl, 'rb') as f:
@@ -228,7 +228,7 @@ def mutate_continuous(individual, prob_mutate, per_bit_mutation_prob, scale):
 
 def run_genetic_decomposition(args, masked_net, valloader, population_r0, population_r1, original_flops, original_acc, 
 				decomposed_layers, decomposed_params, valid_r0_per_layer, valid_r1_per_layer, flops_threshold=None):
-	path_to_heatmap = os.path.join(args.dataset, args.arch, 'heatmap/decomposition')
+	path_to_heatmap = os.path.join('artifacts', args.dataset, args.arch, 'heatmap/decomposition')
 	if not os.path.exists(path_to_heatmap):
 		os.makedirs(path_to_heatmap)
 
@@ -335,7 +335,7 @@ def run_genetic_pruning(args, masked_net, valloader, population, flops_original,
 	genes_per_individual = len(layers_to_prune)
 	mutate_scales = np.ones(genes_per_individual)*args.mutate_s
 	
-	path_to_heatmap = os.path.join(args.dataset, args.arch, 'heatmap/pruning')
+	path_to_heatmap = os.path.join('artifacts', args.dataset, args.arch, 'heatmap/pruning')
 	if not os.path.exists(path_to_heatmap):
 		os.makedirs(path_to_heatmap)
 
