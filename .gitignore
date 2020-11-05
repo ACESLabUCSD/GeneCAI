@@ -1,6 +1,6 @@
 # data and pretrained models
-.artifacts
-.data
+/artifacts/*
+/data/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
