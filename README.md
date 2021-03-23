@@ -7,11 +7,11 @@ To compress the models, run `main.py` which expects to receive the checkpoint of
 1.  Place the pretrained checkpoint for the non-compressed model in `CIFAR10/ResNet56/checkpoint/ckpt.t7`
 2. Find optimized per-layer decomposition paramaters for the pretrained model:
 	`python main.py --phase D --arch ResNet56 --num_population 100 --acc_threshold 90`
-3. Select one config from path `CIFAR10/ResNet56/best_configs/decomposition` (e.g., `iter_xxx_acc_yyy_flops_zzz.pkl`) and perform fine-tuning to recover the accuracy opf the decmposed model:
+3. Select one config from path `CIFAR10/ResNet56/best_configs/decomposition` (e.g., `iter_xxx_acc_yyy_flops_zzz.pkl`) and perform fine-tuning to recover the accuracy opf the decomposed model:
 	`python main.py --phase D_FT --arch ResNet56 --config iter_xxx_acc_yyy_flops_zzz.pkl`
 	This saves the pretrained checkpoint to `CIFAR10/ResNet56/checkpoint/decomposition/flops_xxx_acc_yyy.t7`
 4. Find optimized per-layer pruning paramaters for the decomposed model:
 	`python main.py --phase CP --arch ResNet56 --compressed_ckpt 'CIFAR10/ResNet56/checkpoint/decomposition/flops_xxx_acc_yyy.t7' --num_population 100 --acc_threshold 60`
-5. Select one config from path `CIFAR10/ResNet56/best_configs/channel_pruning` (e.g., `iter_xxx_acc_yyy_flops_zzz.pkl`) and perform fine-tuning to recover the accuracy opf the decmposed model:
+5. Select one config from path `CIFAR10/ResNet56/best_configs/channel_pruning` (e.g., `iter_xxx_acc_yyy_flops_zzz.pkl`) and perform fine-tuning to recover the accuracy of the decomposed+pruned model:
 	`python main.py --phase CP_FT --arch ResNet56 -compressed_ckpt 'CIFAR10/ResNet56/checkpoint/decomposition/flops_xxx_acc_yyy.t7' --config iter_xxx_acc_yyy_flops_zzz.pkl`
 	This saves the pretrained checkpoint to `CIFAR10/ResNet56/checkpoint/pruned/flops_xxx_acc_yyy.t7`
